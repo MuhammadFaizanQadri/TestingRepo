@@ -1,0 +1,81 @@
+import React ,{useState} from "react";
+import TextField from '@material-ui/core/TextField';
+import DateTimePicker from 'react-datetime-picker';
+
+
+
+const MultipleInputs =() =>
+{
+  const [user ,stateuser] = useState({
+    title :"" ,
+    description : "",
+    trainerGuide:"",
+    participents : "",
+    meetingRoomName: "",
+    dateTime:new Date(),
+  });
+  const [date,setdate] = useState(new Date());
+  const [records , setRecords] = useState([]);
+  
+  const handleChange = (e)=>
+  {
+    const name = e.target.name;
+    const value= e.target.value;
+    stateuser({...user,[name]:value});
+    
+
+  }
+const handleSubmit =(e) =>
+{ 
+  e.preventDefault();
+  stateuser({...user,dateTime:date})
+  // set the data into the local storage itmess
+  stateuser({title:"",description:"",trainerGuide:"" ,participents:"",meetingRoomName:"",dateTime:""});
+  console.log(user)
+  const newRecords ={...user};
+  setRecords([records,newRecords]);
+  console.log(records);
+  localStorage.setItem("DataThings",JSON.stringify(records));
+
+
+}
+  return (
+ <>
+ 
+ <center >
+  <div style={{ height: '500px' ,width: '35%' }}>
+  <form action ="" onSubmit={handleSubmit} >
+    <div>
+      <h1 style={{color:"Black"}}>Training Guide</h1>
+    </div>
+    <div>
+      <TextField style={{fontWeight:"Bold" ,width:400}} autocomplete='off' id="standard-basic" label="Title" variant="standard" name ="title" value ={user.title} onChange={handleChange}/>
+    </div>
+
+    <div>
+      <TextField style={{fontWeight:"Bold", width:400}} autocomplete='off' id="standard-basic" onChange={handleChange} label="Description " variant="standard" multiline row={2} maxRows={3} name ="description" value ={user.description}/>   
+   </div>
+
+    <div>
+      <TextField style={{fontWeight:"Bold" ,width:400}}  autocomplete='off' id="standard-basic" onChange={handleChange} label="Participents " variant="standard" multiline row={2} maxRows={3} value ={user.participents} name="participents"/>   </div>
+    <div>
+    <TextField style={{fontWeight:"Bold", width:400}} autocomplete='off' id="standard-basic" onChange={handleChange} label="Trainer Name " variant="standard" value ={user.trainerGuide} name="trainerGuide" /> </div>
+    <div>
+    <TextField style={{fontWeight:"Bold" ,width:400}} autocomplete='off' id="standard-basic" onChange={handleChange} label="Meeting Room" variant="standard" value ={user.meetingRoomName} name="meetingRoomName"/>
+    </div>
+  
+    <div style={{width:'400'}}>
+    <DateTimePicker style={{fontWeight:"Bold" ,width:400}} placeholder ='Select Date and Time ' value={date} onChange={setdate} />
+    </div >
+    <br/>
+    <input type="submit" value="Submit" style={{ fontWeight:"bold" ,borderRadius:'8px' ,padding:'14px 40px'}} />
+  </form> 
+  
+  </div>
+</center>
+
+</>
+);
+}
+
+export default MultipleInputs;
